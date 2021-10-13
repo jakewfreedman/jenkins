@@ -6,7 +6,7 @@ pipeline {
     stage('Checkout'){
       steps {
         echo 'Checking out from repository...'
-        git credentialsId: 'github_credentials', url: 'https://github.com/KevinECE/Jenkins'
+        git credentialsId: 'shared_credentials', url: 'https://github.com/jakewfreedman/jenkins/tree/kevin'
       }
     }
 
