@@ -1,0 +1,53 @@
+// pipeline {
+//     agent { label 'master' }
+//     stages {
+//         stage('Send email') {
+//             steps {
+//                 script {
+//                     env.WORKSPACE = pwd()
+//                     env.log = readFile "${env.WORKSPACE}/error_logfile.txt"
+//                     env.errorLine = env.log.readLines().get(env.log.readLines().size().toInteger() - 3)
+//                     if (env.errorLine != 'No errors') {
+//                         emailext attachmentsPattern: 'error_logfile.txt',
+//                             body: env.errorLine,
+//                             subject: 'Errors',
+//                             to: 'jake.freedman10@gmail.com'
+//                     } else {
+//                         emailext attachmentsPattern: 'error_logfile.txt',
+//                             body: 'There are no errors',
+//                             subject: 'No errors',
+//                             to: 'jake.freedman10@gmail.com'
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
+
+pipeline {
+    agent { label 'master' }
+    stages {
+        stage('Send email') {
+            steps {
+                script {
+                    env.WORKSPACE = pwd()
+                    env.log = readFile "${env.WORKSPACE}/dat_error.dat"
+		    // -1 is last line
+                    env.errorLine = env.log.readLines().get(env.log.readLines().size().toInteger() - 3)
+                    if (env.errorLine != 'No errors') {
+                        emailext attachmentsPattern: 'dat_error.dat',
+			    //sends specific line, could be useful
+                            body: env.errorLine,
+                            subject: 'Errors',
+                            to: 'jake.freedman10@gmail.com'
+                    } else {
+                        emailext attachmentsPattern: 'dat_error.dat',
+                            body: 'There are no errors',
+                            subject: 'No errors',
+                            to: 'jake.freedman10@gmail.com'
+                    }
+                }
+            }
+        }
+    }
+}
